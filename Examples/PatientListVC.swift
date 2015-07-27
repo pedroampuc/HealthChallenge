@@ -37,16 +37,33 @@ class PatientListVC : UITableViewController, UITableViewDelegate, UITableViewDat
             
             pfobjects = rDAO.getPatientRFids()
             
-            while (rDAO.finish! == false)
+            println("vetor na patient table view \(rDAO.patientsRFID)")
+            
+            while (rDAO.patientsRFID.count == 0 )//|| rDAO.patientsRFID == nil)
             {
                 // NSLog("dentro do while")
-                pfobjects = rDAO.getPatientRFids()
-                println(pfobjects)
+                //pfobjects = rDAO.getPatientRFids()
+                //println(pfobjects)
+                pfobjects = rDAO.patientsRFID
             }
+           
+            pfobjects = rDAO.patientsRFID
+        
+
             
+//            while ((rDAO.finish!) == false)
+//            {
+//                // NSLog("dentro do while")
+//                pfobjects = rDAO.getPatientRFids()
+//                //println(pfobjects)
+//            }
+//            if(pfobjects == nil)
+//            {
+//                pfobjects = rDAO.getPatientRFids()
+//            }
             dispatch_async(dispatch_get_main_queue())
             {
-                    NSLog("temrminou a consulta na patient table view \(pfobjects?.count)")
+                    NSLog("temrminou a consulta na patient table view \(pfobjects)")
             }
             
             

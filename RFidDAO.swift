@@ -18,7 +18,7 @@ import Parse
 class RFidDAO
 {
     
-    var patientsRFID : [PFObject]?
+    var patientsRFID : [PFObject] = [PFObject]()
     var finish : Bool? = false
     func getPatientsByRFid()
     {
@@ -28,6 +28,8 @@ class RFidDAO
                     var finish2 :Bool = false
                     
                     self.finish = false
+                    
+                    //self.patientsRFID = [PFObject]?()
                     
                     //var query = PFQuery(className:"Rfid")
                     
@@ -43,15 +45,18 @@ class RFidDAO
                                 {
                                     println("Successfully retrieved \(objects!.count) scores.")
                                     
-                                    
+                                    var i = 0
                                     if let objects = objects as? [PFObject]
                                     {
                                         for object in objects
                                         {
                                             
-                                            println("id do objeto \(object.objectId)")
+        
                                             
-                                            self.patientsRFID?.append(object)
+                                            self.patientsRFID.append(object)
+                                            println("id do objeto \(self.patientsRFID)")
+                                            i++
+
                                         }
                                     }
                                     else
