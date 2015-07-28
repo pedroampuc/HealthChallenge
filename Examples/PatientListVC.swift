@@ -13,12 +13,12 @@ import Parse
 
 import UIKit
 
-var pfobjects : [PFObject]?
+
 
 class PatientListVC : UITableViewController, UITableViewDelegate, UITableViewDataSource
 {
-    
-    var items: [String] = ["We", "Heart", "Swift"]
+    var pfobjects : [PFObject] = [PFObject]()
+    var items: [String] = []//[String]() //["We", "Heart", "Swift"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,39 +31,38 @@ class PatientListVC : UITableViewController, UITableViewDelegate, UITableViewDat
         {
             var aux = 0
             
-            var rDAO = RFidDAO()
-
-            rDAO.getPatientsByRFid()
+            //var rDAO = RFidDAO()
             
-            pfobjects = rDAO.getPatientRFids()
+            var patientDAO = PatientDAO()
             
-            println("vetor na patient table view \(rDAO.patientsRFID)")
+            patientDAO.getPatientsData()
             
-            while (rDAO.patientsRFID.count == 0 )//|| rDAO.patientsRFID == nil)
+            //rDAO.getPatientsByRFid()
+            
+            //pfobjects = rDAO.getPatientRFids()
+            
+           // println("vetor na patient table view \(rDAO.patientsRFID)")
+            
+            while (patientDAO.finish == false)//(rDAO.patientsRFID.count == 0 )//|| rDAO.patientsRFID == nil)
             {
-                // NSLog("dentro do while")
-                //pfobjects = rDAO.getPatientRFids()
-                //println(pfobjects)
-                pfobjects = rDAO.patientsRFID
+               
             }
            
-            pfobjects = rDAO.patientsRFID
+            self.pfobjects = patientDAO.patientsData //  para pegar os rfids, nao usaremos por enquanto
         
-
+            for object in self.pfobjects
+            {
+               self.items.append(object.valueForKey("nome") as! String)
+            }
             
-//            while ((rDAO.finish!) == false)
-//            {
-//                // NSLog("dentro do while")
-//                pfobjects = rDAO.getPatientRFids()
-//                //println(pfobjects)
-//            }
-//            if(pfobjects == nil)
-//            {
-//                pfobjects = rDAO.getPatientRFids()
-//            }
+            //self.items = ["We", "Heart", "Swift"]
+            
             dispatch_async(dispatch_get_main_queue())
             {
-                    NSLog("temrminou a consulta na patient table view \(pfobjects)")
+                    NSLog("temrminou a consulta na patient table view \(self.pfobjects)")
+                
+                    NSLog("items vet\(self.items)")
+                self.tableView.reloadData()
             }
             
             
@@ -73,13 +72,13 @@ class PatientListVC : UITableViewController, UITableViewDelegate, UITableViewDat
     
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.items.count;
+        return self.items.count//pfobjects.count;//self.items.count;
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell:UITableViewCell = self.tableView.dequeueReusableCellWithIdentifier("cell") as! UITableViewCell
         
-        cell.textLabel?.text = self.items[indexPath.row]
+        cell.textLabel?.text = self.items[indexPath.row] // pfobjects[indexPath.row].valueForKey("nome") as! String//self.items[indexPath.row]
         
         return cell
     }

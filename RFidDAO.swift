@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Foundation
 import Parse
 
 //var dtDAOaux: DataBaseDAO = DataBaseDAO()
